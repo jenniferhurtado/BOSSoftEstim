@@ -2,10 +2,8 @@ from jira import JIRA
 
 
 def authenticate():
-    import netrc
-    netrc = netrc.netrc()
     REMOTE_HOST_NAME = 'https://softestim.atlassian.net'
-    authTokens = netrc.authenticators(REMOTE_HOST_NAME)
+    authTokens = ('jenniferhurtadopareja@gmail.com', None, 'RTEn84B6mDHlf6kpjuo170D0')
     username = authTokens[0]
     password = authTokens[2]
 
