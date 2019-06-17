@@ -1,7 +1,7 @@
 from django.http import HttpResponse
-from .authentication import get_one_issue, get_all_issues
 from django.template import loader
-from django.shortcuts import render
+
+from .authentication import get_all_issues, get_one_issue
 
 
 def index(request):
@@ -9,7 +9,7 @@ def index(request):
     context = {
         'holi': 'holi',
     }
-    return render(request, template, context)
+    return HttpResponse(template.render(context, request))
 
 
 def show__one_issue(request):
