@@ -5,7 +5,7 @@ from .views import redirect_view
 
 urlpatterns = [
     path('', redirect_view),
-    path('jira-connector/', include('django.contrib.auth.urls')),
-    path('jira-connector/', include('jira-connector.urls')),
+    path('jiracloud/', include('django.contrib.auth.urls')),
+    path('jiracloud/', include('jiracloud.urls')),
     path('admin/', admin.site.urls),
 ]

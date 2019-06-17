@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('jira', '0002_contact_jira_password'),
+        ('jiracloud', '0002_contact_jira_password'),
     ]
 
     operations = [

@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'softestim.herokuapp.com', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
-    'jira-connector.apps.JiraConfig',
+    'jiracloud.apps.JiracloudConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -127,6 +127,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-LOGIN_REDIRECT_URL = '/jira-connector/'
+LOGIN_REDIRECT_URL = '/jiracloud/'
 
 django_heroku.settings(locals())

@@ -1,9 +1,15 @@
 from django.http import HttpResponse
 from .authentication import get_one_issue, get_all_issues
+from django.template import loader
+from django.shortcuts import render
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the jira index.")
+    template = loader.get_template('jiracloud/index.html')
+    context = {
+        'holi': 'holi',
+    }
+    return render(request, template, context)
 
 
 def show__one_issue(request):

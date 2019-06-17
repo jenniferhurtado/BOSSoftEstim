@@ -3,5 +3,5 @@ from django.shortcuts import redirect
 
 
 def redirect_view(request):
-    response = redirect('/jira-connector/login')
+    response = redirect('/jiracloud/login')
     return response

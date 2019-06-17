@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('jira', '0001_initial'),
+        ('jiracloud', '0001_initial'),
     ]
 
     operations = [
