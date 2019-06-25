@@ -6,8 +6,9 @@ from .authentication import get_all_issues, get_one_issue
 
 def index(request):
     template = loader.get_template('jiracloud/index.html')
+    issues = get_all_issues('Front-end developers')
     context = {
-        'holi': 'holi',
+        'issues': issues,
     }
     return HttpResponse(template.render(context, request))
 
