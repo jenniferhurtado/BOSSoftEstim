@@ -21,3 +21,8 @@ def get_all_issues(project_name):
     jira_client = authenticate()
     issues = jira_client.search_issues('project="{}"'.format(project_name))
     return issues
+
+
+def get_all_projects():
+    jira_client = authenticate()
+    return jira_client.projects()
