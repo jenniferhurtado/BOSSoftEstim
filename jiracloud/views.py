@@ -1,7 +1,9 @@
+import pandas as pd
 from django.http import HttpResponse
 from django.template import loader
 
 from .authentication import *
+from deeplearning.prepare_data import COLUMNS
 
 
 def index(request):
@@ -34,3 +36,30 @@ def show_all_issues(request):
         response = response + issue.key + ', '
 
     return HttpResponse(response)
+
+
+def classify():
+    projects = get_all_projects()
+    issues_to_classify = []
+    for project in projects:
+        issues_to_classify = issues_to_classify + filter_unclassified_issues(get_all_issues(project))
+
+    return build_prediction_dataframe(issues_to_classify)
+
+
+def build_prediction_dataframe(issues_to_classify):
+    data = []
+    for issue in issues_to_classify:
+        data.append([issue.key, issue.fields.summary, issue.fields.description, issue.fields.customfield_10027, ])
+
+    df = pd.DataFrame(data, columns=COLUMNS)
+    return df
+
+
+def build_training_dataframe(issues_to_train):
+    data = []
+    for issue in issues_to_train:
+        data.append([issue.key, issue.fields.summary, issue.fields.description, issue.fields.customfield_10027, ])
+
+    df = pd.DataFrame(data, columns=COLUMNS)
+    return df

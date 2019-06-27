@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'softestim.herokuapp.com', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'deeplearning.apps.DeeplearningConfig',
     'jiracloud.apps.JiracloudConfig',
     'django.contrib.admin',
     'django.contrib.auth',
