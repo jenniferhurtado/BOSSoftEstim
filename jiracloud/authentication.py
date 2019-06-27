@@ -23,6 +23,14 @@ def get_all_issues(project_name):
     return issues
 
 
+def filter_classified_issues(issues):
+    return [issue for issue in issues if issue.fields.customfield_10027 is not None]
+
+
+def filter_unclassified_issues(issues):
+    return [issue for issue in issues if issue.fields.customfield_10027 is None]
+
+
 def get_all_projects():
     jira_client = authenticate()
     return jira_client.projects()

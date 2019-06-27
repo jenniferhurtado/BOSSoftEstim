@@ -60,7 +60,15 @@
 </div>
 
 <!-- -->
-
+<div class="container">
+	<div class="row">
+        <div class="span12">
+    		<div class="menu">
+                <h2>Stories already classified</h2>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container">
 	<div class="row">
         <div class="span12">
@@ -68,14 +76,72 @@
                 <div class="accordion">
             		<div class="accordion-group">
 
-                        {% for project, issues in project_issue_dict.items %}
+                        {% for project, issues in project_classified_issue_dict.items %}
                             <div class="accordion-heading country">
                             {% load staticfiles %}
                               <img src="{% static "jira_logo.png" %}" alt="country flag" style="float:left; margin: 3px 10px 0 3px; text-align:center;"/>
-                                <a class="accordion-toggle" data-toggle="collapse" href="#{{ project.key }}">{{ project.name }}</a>
+                                <a class="accordion-toggle" data-toggle="collapse" href="#c{{ project.key }}">{{ project.name }}</a>
                             </div>
 
-                            <div id="{{ project.key }}" class="accordion-body collapse">
+                            <div id="c{{ project.key }}" class="accordion-body collapse">
+                                <div class="accordion-inner">
+                                    <table class="table table-striped table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Description</th>
+                                                <th>Issue type</th>
+                                                <th>Story points</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        {% for issue in issues %}
+                                            <tr>
+                                                <td>{{ issue.key }}</td>
+                                                <td>{{ issue.fields.description }}</td>
+                                                <td>{{ issue.fields.issuetype.name }}</td>
+                                                <td>{{ issue.fields.customfield_10027 }}</td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        {% endfor %}
+            		</div>
+            	</div>
+            </div>
+        </div>
+	</div>
+</div>
+
+
+<div class="container">
+	<div class="row">
+        <div class="span12">
+    		<div class="menu">
+                <h2>Stories not classified</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+	<div class="row">
+        <div class="span12">
+    		<div class="menu">
+                <div class="accordion">
+            		<div class="accordion-group">
+
+                        {% for project, issues in project_unclassified_issue_dict.items %}
+                            <div class="accordion-heading country">
+                            {% load staticfiles %}
+                              <img src="{% static "jira_logo.png" %}" alt="country flag" style="float:left; margin: 3px 10px 0 3px; text-align:center;"/>
+                                <a class="accordion-toggle" data-toggle="collapse" href="#u{{ project.key }}">{{ project.name }}</a>
+                            </div>
+
+                            <div id="u{{ project.key }}" class="accordion-body collapse">
                                 <div class="accordion-inner">
                                     <table class="table table-striped table-condensed">
                                         <thead>

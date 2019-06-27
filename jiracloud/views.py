@@ -1,19 +1,22 @@
 from django.http import HttpResponse
 from django.template import loader
 
-from .authentication import get_all_issues, get_one_issue, get_all_projects
+from .authentication import *
 
 
 def index(request):
     template = loader.get_template('jiracloud/index.html')
-    project_issue_dict = {}
+    project_classified_issue_dict = {}
+    project_unclassified_issue_dict = {}
     projects = get_all_projects()
     for project in projects:
         issues = get_all_issues(project.name)
-        project_issue_dict[project] = issues
+        project_classified_issue_dict[project] = filter_classified_issues(issues)
+        project_unclassified_issue_dict[project] = filter_unclassified_issues(issues)
 
     context = {
-        'project_issue_dict': project_issue_dict,
+        'project_classified_issue_dict': project_classified_issue_dict,
+        'project_unclassified_issue_dict': project_unclassified_issue_dict,
     }
     return HttpResponse(template.render(context, request))
 
