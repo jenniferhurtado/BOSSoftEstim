@@ -42,6 +42,15 @@ def classify():
     projects = get_all_projects()
     issues_to_classify = []
     for project in projects:
+        issues_to_classify = issues_to_classify + filter_classified_issues(get_all_issues(project))
+
+    return build_training_dataframe(issues_to_classify)
+
+
+def predict():
+    projects = get_all_projects()
+    issues_to_classify = []
+    for project in projects:
         issues_to_classify = issues_to_classify + filter_unclassified_issues(get_all_issues(project))
 
     return build_prediction_dataframe(issues_to_classify)
@@ -50,7 +59,7 @@ def classify():
 def build_prediction_dataframe(issues_to_classify):
     data = []
     for issue in issues_to_classify:
-        data.append([issue.key, issue.fields.summary, issue.fields.description, issue.fields.customfield_10027, ])
+        data.append([issue.key, issue.fields.summary, issue.fields.description, '', ])
 
     df = pd.DataFrame(data, columns=COLUMNS)
     return df
@@ -62,4 +71,6 @@ def build_training_dataframe(issues_to_train):
         data.append([issue.key, issue.fields.summary, issue.fields.description, issue.fields.customfield_10027, ])
 
     df = pd.DataFrame(data, columns=COLUMNS)
+    df.storypoint = df.storypoint.apply(lambda x: int(x))
+
     return df
