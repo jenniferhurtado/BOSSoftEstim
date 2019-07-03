@@ -34,7 +34,7 @@ class FastTextClassifier:
         mode = 'supervised'
         input_parameter = self.inputFileName
         output = self.outputFileName
-        epoch = '500'
+        epoch = '1'
         word_n_grams = '4'
         dim = '300'
         minn = '4'
