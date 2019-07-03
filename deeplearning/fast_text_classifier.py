@@ -12,7 +12,7 @@ PRETRAINED = '-pretrainedVectors'
 
 
 class FastTextClassifier:
-    PATH_TO_FASTTEXT = "./deeplearning/fasttext_tool/fastText-0.1.0/fasttext"
+    PATH_TO_FASTTEXT = "static/fasttext"
     rand = ""
     inputFileName = ""
     outputFileName = ""
