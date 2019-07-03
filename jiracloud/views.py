@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import loader
 
 from .authentication import *
+from deeplearning.main import prediction
 from deeplearning.prepare_data import COLUMNS
 
 
@@ -20,6 +21,26 @@ def index(request):
         'project_classified_issue_dict': project_classified_issue_dict,
         'project_unclassified_issue_dict': project_unclassified_issue_dict,
     }
+    return HttpResponse(template.render(context, request))
+
+
+def classify_view(request):
+    df_test = predict()
+    df_train = classify()
+    df_predicted = prediction(df_train, df_test)
+
+    issue_list = []
+    for i, row in df_predicted.iterrows():
+        key = row.issuekey
+        print(key)
+        pred = row.prediction
+        issue = get_one_issue(key)
+        issue_list.append((issue, pred))
+
+    print(df_predicted)
+    print(issue_list)
+    context = {'classified': {'BED': issue_list}}
+    template = loader.get_template('jiracloud/classify_template.html')
     return HttpResponse(template.render(context, request))
 
 

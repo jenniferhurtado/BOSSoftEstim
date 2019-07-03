@@ -1,7 +1,7 @@
 <head>
-<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 </head>
 
 <div class="navbar">
@@ -174,3 +174,7 @@
         </div>
 	</div>
 </div>
+<form action="{% url 'classify_view' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Classify" class="glyphicon glyphicon-link pull-left">
+</form>
