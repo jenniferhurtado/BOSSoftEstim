@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('username', models.CharField(max_length=30)),
                 ('jira_username', models.CharField(max_length=30)),
                 ('email', models.EmailField(max_length=254)),
-                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='jira.Client')),
+                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='jiracloud.Client')),
             ],
         ),
     ]
