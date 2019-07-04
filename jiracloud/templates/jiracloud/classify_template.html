@@ -80,10 +80,10 @@
                             <div class="accordion-heading country">
                             {% load staticfiles %}
                               <img src="{% static "jira_logo.png" %}" alt="country flag" style="float:left; margin: 3px 10px 0 3px; text-align:center;"/>
-                                <a class="accordion-toggle" data-toggle="collapse" href="#c{{ project }}">{{ project }}</a>
+                                <a class="accordion-toggle" data-toggle="collapse" href="#c{{ project.key }}">{{ project.name }}</a>
                             </div>
 
-                            <div id="c{{ project }}" class="accordion-body collapse">
+                            <div id="c{{ project.key }}" class="accordion-body collapse">
                                 <div class="accordion-inner">
                                     <table class="table table-striped table-condensed">
                                         <thead>

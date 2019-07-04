@@ -40,11 +40,11 @@ def classify_view(request):
         pred = row.prediction
         issue = get_one_issue(key)
 
-        project_key = issue.fields.project.key
-        if project_key in issues_dict:
-            issues_dict[project_key].append((issue, pred))
+        project = issue.fields.project
+        if project in issues_dict:
+            issues_dict[project].append((issue, pred))
         else:
-            issues_dict[project_key] = [(issue, pred)]
+            issues_dict[project] = [(issue, pred)]
 
     context = {'classified': issues_dict}
     template = loader.get_template('jiracloud/classify_template.html')
