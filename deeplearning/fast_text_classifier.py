@@ -36,7 +36,7 @@ class FastTextClassifier:
         output = self.outputFileName
         epoch = '1'
         word_n_grams = '4'
-        dim = '300'
+        dim = '10'
         minn = '4'
         maxn = '6'
         pretrained = './data/pretrained/pretrain_model.vec'
