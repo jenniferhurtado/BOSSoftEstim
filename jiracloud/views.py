@@ -14,8 +14,13 @@ def index(request):
     projects = get_all_projects()
     for project in projects:
         issues = get_all_issues(project.name)
-        project_classified_issue_dict[project] = filter_classified_issues(issues)
-        project_unclassified_issue_dict[project] = filter_unclassified_issues(issues)
+        classified = filter_classified_issues(issues)
+        if classified:
+            project_classified_issue_dict[project] = classified
+
+        unclassified = filter_unclassified_issues(issues)
+        if unclassified:
+            project_unclassified_issue_dict[project] = unclassified
 
     context = {
         'project_classified_issue_dict': project_classified_issue_dict,
