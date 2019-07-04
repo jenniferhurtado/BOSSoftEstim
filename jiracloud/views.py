@@ -34,17 +34,19 @@ def classify_view(request):
     df_train = classify()
     df_predicted = prediction(df_train, df_test)
 
-    issue_list = []
+    issues_dict = {}
     for i, row in df_predicted.iterrows():
         key = row.issuekey
-        print(key)
         pred = row.prediction
         issue = get_one_issue(key)
-        issue_list.append((issue, pred))
 
-    print(df_predicted)
-    print(issue_list)
-    context = {'classified': {'BED': issue_list}}
+        project_key = issue.fields.project.key
+        if project_key in issues_dict:
+            issues_dict[project_key].append((issue, pred))
+        else:
+            issues_dict[project_key] = [(issue, pred)]
+
+    context = {'classified': issues_dict}
     template = loader.get_template('jiracloud/classify_template.html')
     return HttpResponse(template.render(context, request))
 
