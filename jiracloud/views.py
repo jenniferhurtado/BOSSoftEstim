@@ -39,6 +39,7 @@ def classify_view(request):
         key = row.issuekey
         pred = row.prediction
         issue = get_one_issue(key)
+        issue.update(fields={'customfield_10027': pred})
 
         project = issue.fields.project
         if project in issues_dict:
