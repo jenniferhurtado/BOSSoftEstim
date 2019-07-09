@@ -1,12 +1,14 @@
 import pandas as pd
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template import loader
 
-from .authentication import *
 from deeplearning.main import prediction
 from deeplearning.prepare_data import COLUMNS
+from .authentication import *
 
 
+@login_required
 def index(request):
     template = loader.get_template('jiracloud/index.html')
     project_classified_issue_dict = {}
@@ -29,6 +31,7 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 
+@login_required
 def classify_view(request):
     df_test = predict()
     df_train = classify()
