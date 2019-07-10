@@ -5,7 +5,7 @@ from django.template import loader
 
 from deeplearning.main import prediction
 from deeplearning.prepare_data import COLUMNS
-from .authentication import *
+from .jira_connector import *
 
 
 @login_required
