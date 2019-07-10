@@ -13,9 +13,10 @@ def index(request):
     template = loader.get_template('jiracloud/index.html')
     project_classified_issue_dict = {}
     project_unclassified_issue_dict = {}
-    projects = get_all_projects()
+    user = request.user
+    projects = get_all_projects(user)
     for project in projects:
-        issues = get_all_issues(project.name)
+        issues = get_all_issues(project.name, user)
         classified = filter_classified_issues(issues)
         if classified:
             project_classified_issue_dict[project] = classified
@@ -33,15 +34,16 @@ def index(request):
 
 @login_required
 def classify_view(request):
-    df_test = predict()
-    df_train = classify()
+    user = request.user
+    df_test = predict(user)
+    df_train = classify(user)
     df_predicted = prediction(df_train, df_test)
 
     issues_dict = {}
     for i, row in df_predicted.iterrows():
         key = row.issuekey
         pred = row.prediction
-        issue = get_one_issue(key)
+        issue = get_one_issue(key, user)
         issue.update(fields={'customfield_10027': pred})
 
         project = issue.fields.project
@@ -56,13 +58,15 @@ def classify_view(request):
 
 
 def show__one_issue(request):
-    issue = get_one_issue('FED-1')
+    user = request.user
+    issue = get_one_issue('FED-1', user)
     return HttpResponse(issue.key)
 
 
 def show_all_issues(request):
+    user = request.user
     project_name = 'Front-end developers'
-    issues = get_all_issues(project_name)
+    issues = get_all_issues(project_name, user)
     response = project_name + ' issues: '
     for issue in issues:
         response = response + issue.key + ', '
@@ -70,20 +74,20 @@ def show_all_issues(request):
     return HttpResponse(response)
 
 
-def classify():
-    projects = get_all_projects()
+def classify(user):
+    projects = get_all_projects(user)
     issues_to_classify = []
     for project in projects:
-        issues_to_classify = issues_to_classify + filter_classified_issues(get_all_issues(project))
+        issues_to_classify = issues_to_classify + filter_classified_issues(get_all_issues(project, user))
 
     return build_training_dataframe(issues_to_classify)
 
 
-def predict():
-    projects = get_all_projects()
+def predict(user):
+    projects = get_all_projects(user)
     issues_to_classify = []
     for project in projects:
-        issues_to_classify = issues_to_classify + filter_unclassified_issues(get_all_issues(project))
+        issues_to_classify = issues_to_classify + filter_unclassified_issues(get_all_issues(project, user))
 
     return build_prediction_dataframe(issues_to_classify)
 
