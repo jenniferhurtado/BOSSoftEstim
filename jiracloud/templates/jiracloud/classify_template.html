@@ -2,13 +2,7 @@
 {% block content %}
 <!-- -->
 <div class="container">
-	<div class="row">
-        <div class="span12">
-    		<div class="menu">
-                <h2>Classification</h2>
-            </div>
-        </div>
-    </div>
+    <h3>Classification</h3>
 </div>
 <div class="container">
 	<div class="row">
@@ -21,7 +15,7 @@
                             <div class="accordion-heading country">
                             {% load staticfiles %}
                               <img src="{% static "jira_logo.png" %}" alt="country flag" style="float:left; margin: 3px 10px 0 3px; text-align:center;"/>
-                                <a class="accordion-toggle" data-toggle="collapse" href="#c{{ project.key }}">{{ project.name }}</a>
+                                <a class="accordion-toggle" data-toggle="collapse" style="font-size: large" href="#c{{ project.key }}">{{ project.name }}</a>
                             </div>
 
                             <div id="c{{ project.key }}" class="accordion-body collapse">

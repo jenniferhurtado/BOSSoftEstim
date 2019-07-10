@@ -1,15 +1,11 @@
 {% extends 'jiracloud/base.html' %}
 {% block content %}
 <!-- -->
-<div class="container">
-	<div class="row">
-        <div class="span12">
-    		<div class="menu">
-                <h2>Stories already classified</h2>
-            </div>
-        </div>
-    </div>
+
+<div class="menu">
+    <h3>Stories already classified</h3>
 </div>
+
 <div class="container">
 	<div class="row">
         <div class="span12">
@@ -21,7 +17,7 @@
                             <div class="accordion-heading country">
                             {% load staticfiles %}
                               <img src="{% static "jira_logo.png" %}" alt="country flag" style="float:left; margin: 3px 10px 0 3px; text-align:center;"/>
-                                <a class="accordion-toggle" data-toggle="collapse" href="#c{{ project.key }}">{{ project.name }}</a>
+                                <a class="accordion-toggle" data-toggle="collapse" style="font-size: large" href="#c{{ project.key }}">{{ project.name }}</a>
                             </div>
 
                             <div id="c{{ project.key }}" class="accordion-body collapse">
@@ -59,14 +55,8 @@
 </div>
 
 
-<div class="container">
-	<div class="row">
-        <div class="span12">
-    		<div class="menu">
-                <h2>Stories not classified</h2>
-            </div>
-        </div>
-    </div>
+<div class="menu">
+    <h3>Stories not classified</h3>
 </div>
 <div class="container">
 	<div class="row">
@@ -79,7 +69,7 @@
                             <div class="accordion-heading country">
                             {% load staticfiles %}
                               <img src="{% static "jira_logo.png" %}" alt="country flag" style="float:left; margin: 3px 10px 0 3px; text-align:center;"/>
-                                <a class="accordion-toggle" data-toggle="collapse" href="#u{{ project.key }}">{{ project.name }}</a>
+                                <a class="accordion-toggle" data-toggle="collapse" style="font-size: large" href="#u{{ project.key }}">{{ project.name }}</a>
                             </div>
 
                             <div id="u{{ project.key }}" class="accordion-body collapse">
@@ -115,8 +105,12 @@
         </div>
 	</div>
 </div>
+
 <form action="{% url 'classify_view' %}" method="post">
     {% csrf_token %}
-    <input type="submit" value="Classify" class="glyphicon glyphicon-link pull-left">
+    <div class="center">
+    <input type="submit" value="Classify" class="btn btn-lg btn-warning" style="font-size: large"><i class="glyphicon glyphicon-link pull-left"></i><span><br><small></small></span>
+    </div>
 </form>
+
 {% endblock %}
