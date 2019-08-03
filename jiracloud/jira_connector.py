@@ -1,5 +1,7 @@
 from jira import JIRA
 
+from deeplearning.utils import build_training_dataframe
+
 
 def authenticate(user):
     profile = user.profile
@@ -37,3 +39,12 @@ def filter_unclassified_issues(issues):
 def get_all_projects(user):
     jira_client = authenticate(user)
     return jira_client.projects()
+
+
+def get_training_dataframe(user):
+    projects = get_all_projects(user)
+    issues_to_classify = []
+    for project in projects:
+        issues_to_classify = issues_to_classify + filter_classified_issues(get_all_issues(project, user))
+
+    return build_training_dataframe(issues_to_classify)

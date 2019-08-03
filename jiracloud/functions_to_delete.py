@@ -1,7 +1,7 @@
 import pandas as pd
 from django.http import HttpResponse
 
-from deeplearning.prepare_data import COLUMNS
+from deeplearning.utils import COLUMNS
 from .views import filter_classified_issues, filter_unclassified_issues, get_all_issues, get_all_projects, get_one_issue
 
 

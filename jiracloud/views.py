@@ -1,10 +1,9 @@
-import pandas as pd
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template import loader
 
 from deeplearning.main import prediction
-from deeplearning.prepare_data import COLUMNS
+from deeplearning.utils import build_prediction_dataframe
 from .jira_connector import *
 
 
@@ -40,7 +39,7 @@ def index(request):
 @login_required
 def classify_view(request):
     user = request.user
-    df_test = build_prediction_dataframe_from_dict(request.session['list_unclassified'])
+    df_test = build_prediction_dataframe(request.session['list_unclassified'])
     df_predicted = prediction(df_test)
 
     issues_dict = {}
@@ -59,14 +58,3 @@ def classify_view(request):
     context = {'classified': issues_dict}
     template = loader.get_template('jiracloud/classify_template.html')
     return HttpResponse(template.render(context, request))
-
-
-def build_prediction_dataframe_from_dict(issues_to_classify):
-    data = []
-    for issue_key in issues_to_classify:
-        data.append([issue_key, issues_to_classify[issue_key]['summary'], issues_to_classify[issue_key]['description'], '', ])
-
-    df = pd.DataFrame(data, columns=COLUMNS)
-    return df
-
-

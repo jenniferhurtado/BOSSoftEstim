@@ -3,7 +3,7 @@
 <!-- -->
 
 <div class="menu">
-    <h3>Stories already classified</h3>
+    <h3>Stories already estimated</h3>
 </div>
 
 <div class="container">
@@ -56,7 +56,7 @@
 
 
 <div class="menu">
-    <h3>Stories not classified</h3>
+    <h3>Stories not estimated</h3>
 </div>
 <div class="container">
 	<div class="row">
@@ -109,7 +109,7 @@
 <form action="{% url 'classify_view' %}" method="post">
     {% csrf_token %}
     <div class="center">
-    <input type="submit" value="Classify" class="btn btn-lg btn-warning" style="font-size: large"><i class="glyphicon glyphicon-link pull-left"></i><span><br><small></small></span>
+    <input type="submit" value="Estimate" class="btn btn-lg btn-warning" style="font-size: large"><i class="glyphicon glyphicon-link pull-left"></i><span><br><small></small></span>
     </div>
 </form>
 
