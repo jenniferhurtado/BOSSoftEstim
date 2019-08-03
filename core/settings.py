@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '@%zi@d)(8m0u^a_d1ekp)-i!8&s1y@jb%#_f^=+nhlj7+mwz1%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'softestim.herokuapp.com', '127.0.0.1']
 
@@ -130,6 +130,5 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 LOGIN_REDIRECT_URL = '/jiracloud/'
-LOGOUT_REDIRECT_URL = '/'
 
-#django_heroku.settings(locals())
+django_heroku.settings(locals())
