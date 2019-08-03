@@ -20,9 +20,9 @@ class FastTextClassifier:
 
     def __init__(self):
         self.rand = str(uuid.uuid4())
-        self.inputFileName = "issues_train.txt"
-        self.outputFileName = "supervised_classifier_model"
-        self.testFileName = "issues_test.txt"
+        self.inputFileName = "trained_model/issues_train.txt"
+        self.outputFileName = "trained_model/supervised_classifier_model"
+        self.testFileName = "trained_model/issues_test.txt"
 
     def fit(self, xtrain):
         outfile = open(self.inputFileName, mode="w", encoding="utf-8")
@@ -63,6 +63,5 @@ class FastTextClassifier:
         p1 = subprocess.Popen([self.PATH_TO_FASTTEXT, mode, self.outputFileName + ".bin", self.testFileName],
                               stdout=subprocess.PIPE)
         output_lines = p1.communicate()[0].decode("utf-8").split("\n")
-        print('output lines: ' + output_lines)
         test_pred = [int(p.replace('__label__', '')) for p in output_lines if p != '']
         return test_pred

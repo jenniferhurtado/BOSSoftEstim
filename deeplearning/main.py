@@ -19,10 +19,6 @@ def prediction(df_test):
     # Predict
     testing_set = DataPreparation(df_test).df
     y_pred = clf.predict(testing_set.label_title_desc.values.tolist())
-    print('Testing set: ' + testing_set)
-    print('x_test: ' + testing_set.label_title_desc.values.tolist())
-    print('y_pred' + y_pred)
-
     testing_set['prediction'] = y_pred
 
     return testing_set
