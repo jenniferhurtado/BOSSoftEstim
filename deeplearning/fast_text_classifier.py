@@ -63,5 +63,6 @@ class FastTextClassifier:
         p1 = subprocess.Popen([self.PATH_TO_FASTTEXT, mode, self.outputFileName + ".bin", self.testFileName],
                               stdout=subprocess.PIPE)
         output_lines = p1.communicate()[0].decode("utf-8").split("\n")
+        print('output lines: ' + output_lines)
         test_pred = [int(p.replace('__label__', '')) for p in output_lines if p != '']
         return test_pred
