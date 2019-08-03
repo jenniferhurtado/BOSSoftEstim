@@ -15,6 +15,7 @@ def index(request):
     project_unclassified_issue_dict = {}
     user = request.user
     projects = get_all_projects(user)
+    dict_unclassified = {}
     for project in projects:
         issues = get_all_issues(project.name, user)
         classified = filter_classified_issues(issues)
@@ -24,6 +25,10 @@ def index(request):
         unclassified = filter_unclassified_issues(issues)
         if unclassified:
             project_unclassified_issue_dict[project] = unclassified
+            for issue in unclassified:
+                dict_unclassified[issue.key] = {'summary': issue.fields.summary, 'description': issue.fields.description}
+
+    request.session['list_unclassified'] = dict_unclassified
 
     context = {
         'project_classified_issue_dict': project_classified_issue_dict,
@@ -35,9 +40,8 @@ def index(request):
 @login_required
 def classify_view(request):
     user = request.user
-    df_test = predict(user)
-    df_train = classify(user)
-    df_predicted = prediction(df_train, df_test)
+    df_test = build_prediction_dataframe_from_dict(request.session['list_unclassified'])
+    df_predicted = prediction(df_test)
 
     issues_dict = {}
     for i, row in df_predicted.iterrows():
@@ -57,56 +61,12 @@ def classify_view(request):
     return HttpResponse(template.render(context, request))
 
 
-def show__one_issue(request):
-    user = request.user
-    issue = get_one_issue('FED-1', user)
-    return HttpResponse(issue.key)
-
-
-def show_all_issues(request):
-    user = request.user
-    project_name = 'Front-end developers'
-    issues = get_all_issues(project_name, user)
-    response = project_name + ' issues: '
-    for issue in issues:
-        response = response + issue.key + ', '
-
-    return HttpResponse(response)
-
-
-def classify(user):
-    projects = get_all_projects(user)
-    issues_to_classify = []
-    for project in projects:
-        issues_to_classify = issues_to_classify + filter_classified_issues(get_all_issues(project, user))
-
-    return build_training_dataframe(issues_to_classify)
-
-
-def predict(user):
-    projects = get_all_projects(user)
-    issues_to_classify = []
-    for project in projects:
-        issues_to_classify = issues_to_classify + filter_unclassified_issues(get_all_issues(project, user))
-
-    return build_prediction_dataframe(issues_to_classify)
-
-
-def build_prediction_dataframe(issues_to_classify):
+def build_prediction_dataframe_from_dict(issues_to_classify):
     data = []
-    for issue in issues_to_classify:
-        data.append([issue.key, issue.fields.summary, issue.fields.description, '', ])
+    for issue_key in issues_to_classify:
+        data.append([issue_key, issues_to_classify[issue_key]['summary'], issues_to_classify[issue_key]['description'], '', ])
 
     df = pd.DataFrame(data, columns=COLUMNS)
     return df
 
 
-def build_training_dataframe(issues_to_train):
-    data = []
-    for issue in issues_to_train:
-        data.append([issue.key, issue.fields.summary, issue.fields.description, issue.fields.customfield_10027, ])
-
-    df = pd.DataFrame(data, columns=COLUMNS)
-    df.storypoint = df.storypoint.apply(lambda x: int(x))
-
-    return df

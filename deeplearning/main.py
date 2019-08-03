@@ -55,7 +55,7 @@ def predict_and_accuracy(df):
             total_predictions += 1
 
 
-def prediction(df_train, df_test):
+def fit_f(df_train, df_test):
     # K-folds cross validation
     k = 3
 
@@ -88,3 +88,14 @@ def prediction(df_train, df_test):
         testing_set['prediction'] = y_pred
 
         return testing_set
+
+
+def prediction(df_test):
+    clf = FastTextClassifier()
+
+    # Predict
+    testing_set = DataPreparation(df_test).df
+    y_pred = clf.predict(testing_set.label_title_desc.values.tolist())
+    testing_set['prediction'] = y_pred
+
+    return testing_set
