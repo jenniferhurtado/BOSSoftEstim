@@ -1,3 +1,8 @@
+import pandas as pd
+
+COLUMNS = ['issuekey', 'title', 'description', 'storypoint']
+
+
 def invert_dictionary(dictionary):
     new_dict = {}
     for key in dictionary:
@@ -7,3 +12,23 @@ def invert_dictionary(dictionary):
         else:
             new_dict[value] = [key]
     return new_dict
+
+
+def build_training_dataframe(issues):
+    data = []
+    for issue in issues:
+        data.append([issue.key, issue.fields.summary, issue.fields.description, issue.fields.customfield_10027, ])
+
+    df = pd.DataFrame(data, columns=COLUMNS)
+    df.storypoint = df.storypoint.apply(lambda x: int(x))
+
+    return df
+
+
+def build_prediction_dataframe(issues):
+    data = []
+    for issue_key in issues:
+        data.append([issue_key, issues[issue_key]['summary'], issues[issue_key]['description'], '', ])
+
+    df = pd.DataFrame(data, columns=COLUMNS)
+    return df

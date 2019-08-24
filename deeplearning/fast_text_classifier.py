@@ -20,9 +20,9 @@ class FastTextClassifier:
 
     def __init__(self):
         self.rand = str(uuid.uuid4())
-        self.inputFileName = "issues_train_" + self.rand + ".txt"
-        self.outputFileName = "supervised_classifier_model_" + self.rand
-        self.testFileName = "issues_test_" + self.rand + ".txt"
+        self.inputFileName = "trained_model/issues_train.txt"
+        self.outputFileName = "trained_model/supervised_classifier_model"
+        self.testFileName = "trained_model/issues_test.txt"
 
     def fit(self, xtrain):
         outfile = open(self.inputFileName, mode="w", encoding="utf-8")
