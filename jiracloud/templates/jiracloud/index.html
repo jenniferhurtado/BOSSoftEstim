@@ -38,7 +38,8 @@
                                                 <td>{{ issue.key }}</td>
                                                 <td>{{ issue.fields.description }}</td>
                                                 <td>{{ issue.fields.issuetype.name }}</td>
-                                                <td>{{ issue.fields.customfield_10027 | floatformat:"0" }}</td>
+                                                {% load getattrtemplate %}
+                                                <td>{{ issue.fields | getattrtemplate:custom_field | floatformat:"0" }}</td>
                                             </tr>
                                         {% endfor %}
 
@@ -90,7 +91,8 @@
                                                 <td>{{ issue.key }}</td>
                                                 <td>{{ issue.fields.description }}</td>
                                                 <td>{{ issue.fields.issuetype.name }}</td>
-                                                <td>{{ issue.fields.customfield_10027 }}</td>
+                                                {% load getattrtemplate %}
+                                                <td>{{ issue.fields | getattrtemplate:custom_field | floatformat:"0" }}</td>
                                             </tr>
                                         {% endfor %}
 

@@ -14,10 +14,10 @@ def invert_dictionary(dictionary):
     return new_dict
 
 
-def build_training_dataframe(issues):
+def build_training_dataframe(issues, custom_field):
     data = []
     for issue in issues:
-        data.append([issue.key, issue.fields.summary, issue.fields.description, issue.fields.customfield_10027, ])
+        data.append([issue.key, issue.fields.summary, issue.fields.description, getattr(issue.fields, custom_field), ])
 
     df = pd.DataFrame(data, columns=COLUMNS)
     df.storypoint = df.storypoint.apply(lambda x: int(x))

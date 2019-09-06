@@ -13,15 +13,16 @@ def index(request):
     project_classified_issue_dict = {}
     project_unclassified_issue_dict = {}
     user = request.user
+    custom_field = user.profile.storypoint_name_field
     projects = get_all_projects(user)
     dict_unclassified = {}
     for project in projects:
         issues = get_all_issues(project.name, user)
-        classified = filter_classified_issues(issues)
+        classified = filter_classified_issues(issues, custom_field)
         if classified:
             project_classified_issue_dict[project] = classified
 
-        unclassified = filter_unclassified_issues(issues)
+        unclassified = filter_unclassified_issues(issues, custom_field)
         if unclassified:
             project_unclassified_issue_dict[project] = unclassified
             for issue in unclassified:
@@ -32,6 +33,7 @@ def index(request):
     context = {
         'project_classified_issue_dict': project_classified_issue_dict,
         'project_unclassified_issue_dict': project_unclassified_issue_dict,
+        'custom_field': custom_field,
     }
     return HttpResponse(template.render(context, request))
 
@@ -39,6 +41,7 @@ def index(request):
 @login_required
 def classify_view(request):
     user = request.user
+    custom_field = user.profile.storypoint_name_field
     df_test = build_prediction_dataframe(request.session['list_unclassified'])
     df_predicted = prediction(df_test)
 
@@ -47,7 +50,7 @@ def classify_view(request):
         key = row.issuekey
         pred = row.prediction
         issue = get_one_issue(key, user)
-        issue.update(fields={'customfield_10027': pred})
+        issue.update(fields={custom_field: pred})
 
         project = issue.fields.project
         if project in issues_dict:

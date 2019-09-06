@@ -28,12 +28,12 @@ def get_all_issues(project_name, user):
     return issues
 
 
-def filter_classified_issues(issues):
-    return [issue for issue in issues if issue.fields.customfield_10027 is not None]
+def filter_classified_issues(issues, custom_field):
+    return [issue for issue in issues if getattr(issue.fields, custom_field) is not None]
 
 
-def filter_unclassified_issues(issues):
-    return [issue for issue in issues if issue.fields.customfield_10027 is None]
+def filter_unclassified_issues(issues, custom_field):
+    return [issue for issue in issues if getattr(issue.fields, custom_field) is None]
 
 
 def get_all_projects(user):
@@ -43,8 +43,9 @@ def get_all_projects(user):
 
 def get_training_dataframe(user):
     projects = get_all_projects(user)
+    custom_field = user.profile.storypoint_name_field
     issues_to_classify = []
     for project in projects:
-        issues_to_classify = issues_to_classify + filter_classified_issues(get_all_issues(project, user))
+        issues_to_classify = issues_to_classify + filter_classified_issues(get_all_issues(project, user), custom_field)
 
-    return build_training_dataframe(issues_to_classify)
+    return build_training_dataframe(issues_to_classify, custom_field)
